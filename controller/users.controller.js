@@ -90,3 +90,31 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+//get all reporting managers
+exports.getAllReportingManagers = async(req, res) => {
+  try {
+    
+    const result = await pool.query('select u.*, r.name as role_name from users u inner join roles r on r.id = u.role_id where role_id = (select id from roles where name = $1 or name = $2)',['Admin', 'Manager']);
+
+    const response = result?.rows[0];
+
+    if(!response){
+      return res.json({
+        success: false,
+        data:null,
+        message:"Reporting Managers not found"
+      })
+    }
+
+    return res.json({
+      sucess: true,
+      data: response,
+      message: "All Managers fetched successfully"
+
+    })
+  } catch (error) {
+    console.error('GetAllReportingManagers Error:', err);
+    res.status(500).json({error: 'Internal Server Error'});
+  }
+}
