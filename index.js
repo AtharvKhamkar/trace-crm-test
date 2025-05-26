@@ -3,6 +3,10 @@ require('dotenv').config();
 const app = express();
 const cors = require("cors");
 
+app.use(cors({
+    origin: '*',
+}))
+
 const roleRoutes = require('./routes/role.routes');
 const userRoutes = require('./routes/users.routes');
 const departmentRoutes = require('./routes/department.routes');
@@ -36,9 +40,7 @@ app.use('/api/enquiry-category', enquiryCategoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/prospects', prospectRoutes);
 
-app.use(cors({
-    origin: '*',
-}))
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
