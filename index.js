@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const app = express();
+const cors = require("cors");
 
 const roleRoutes = require('./routes/role.routes');
 const userRoutes = require('./routes/users.routes');
@@ -35,8 +36,10 @@ app.use('/api/enquiry-category', enquiryCategoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/prospects', prospectRoutes);
 
-
-
+app.use(cors({
+    origin: '*',
+    credentials:true
+}))
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
